@@ -13,7 +13,7 @@ syms t tau T real positive
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% wzór ogólny (około 10 minut liczenia dla najogólniejszego przypadku)
 syms beta [1 system_size] real positive
 beta(1) = 1;
-beta(2) = 1;
+beta(2) = 0;
 syms J
 P1 = [];
 P2 = [];
@@ -33,7 +33,7 @@ for i = 1:system_size
     p1 = Phi11 * iMi * ei
     p1 = simplify(p1, 'steps', 1000)
     p2 = Phi21 * iMi * ei
-    p1 = simplify(p2, 'steps', 1000)
+    p2 = simplify(p2, 'steps', 1000)
     P1 = [P1, p1]  % to jest tak na prawdę transpozycja P1
     P2 = [P2, p2]
 end
@@ -55,14 +55,16 @@ for i = 1:system_size
     figure(1)
     subplot(system_size,1,i)
     plot(0:0.01:Treal,G1tempf(0:0.01:Treal))
+    grid on;
     title(["G1"+num2str(i)])
     figure(2)
     subplot(system_size,1,i)
     plot(0:0.01:Treal,G2tempf(0:0.01:Treal))
+    grid on;
     title(["G2"+num2str(i)])
 end
 
-
+%%
 % dodatkowy FOR do liczenia wskaźnika jakości, bardzo wydłuża czas obliczeń
 for i = 1:system_size
     J = G1(i,1).^2 + beta(i)*G2(i,1).^2
@@ -72,8 +74,9 @@ J = int(J, t, 0, T)
 J = simplify(J,'steps',1000)
 Jf = matlabFunction(J)
 
-figure(3)
+figure(4)
 plot(0:0.01:10, Jf(0:0.01:10))
+grid on;
 title("Funkcja kosztu w zależności od T dla \beta_1="+num2str(double(beta(1)))+...
     " \beta_2="+num2str(double(beta(2))))
 xlabel("T")
