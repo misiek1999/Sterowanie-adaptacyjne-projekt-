@@ -13,7 +13,7 @@ syms t tau T real positive
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% wzór ogólny (około 10 minut liczenia dla najogólniejszego przypadku)
 syms beta [1 system_size] real positive
 beta(1) = 1;
-beta(2) = 0;
+beta(2) = 1;
 syms J
 P1 = [];
 P2 = [];
@@ -45,7 +45,7 @@ G1 = simplify(G1,'steps',1000);
 G2 = simplify(G2,'steps',1000);
 
 % przykladowe przebiegi składowych macierzy G1 i G2
-
+%%
 Treal = 0.5;
 figure(1)
 figure(2)
@@ -67,7 +67,7 @@ end
 %%
 % dodatkowy FOR do liczenia wskaźnika jakości, bardzo wydłuża czas obliczeń
 for i = 1:system_size
-    J = G1(i,1).^2 + beta(i)*G2(i,1).^2
+    J = sum(G1(i,:).^2) + beta(i)*sum(G2(i,:).^2)
 end
 J = simplify(J,'steps',1000)
 J = int(J, t, 0, T)
