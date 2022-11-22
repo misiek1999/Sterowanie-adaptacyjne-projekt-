@@ -6,6 +6,7 @@ x0 = [0 0];
 
 % determine the row of the matrix
 n = length(A);
+
 global A B C n W M 
 global T time_step time_stamps time_samples_count
 global G1_vec G2_vec
@@ -41,7 +42,7 @@ G2_vec = [];
 [g2_n g2_m] = size(getG2(0));
 itr = 1;
 for t = time_stamps
-    G1_vec = [G1_vec getG1(t)];
-    G2_vec = [G2_vec getG2(t)]; 
+    G1_vec(:,:, itr) = getG1(t);
+    G2_vec(:,:, itr) = getG2(t); 
     itr = itr + 1;
 end
