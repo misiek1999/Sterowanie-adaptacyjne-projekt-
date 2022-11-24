@@ -1,7 +1,10 @@
 %% load system from other directory
 path_to_model = 'model/load_model.m';
 run(path_to_model);
-
+%% add this folder to matlab path 
+path_to_main_folder = pwd;
+addpath(path_to_main_folder);
+%% Argument initialization
 x0 = [0 0];
 
 % determine the row of the matrix
