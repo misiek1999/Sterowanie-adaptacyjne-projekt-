@@ -5,16 +5,21 @@ run(path_to_model);
 path_to_main_folder = pwd;
 addpath(path_to_main_folder);
 %% Argument initialization
-x0 = [0 0];
+x0 = [0 0 0];
 
 % determine the row of the matrix
 n = length(A);
+n_C = size(C);
+n_C = n_C(1);
+n_B = size(B);
+n_B = n_B(2);
 
 global A B C n W M 
 global T time_step time_stamps time_samples_count
 global G1_vec G2_vec
 %% Define integral observer parameters
 betas = [1 1];
+betas = [1 1 1];
 T = 5;
 time_step = 0.01;
 time_stamps = 0 : time_step :T;
