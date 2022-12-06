@@ -20,7 +20,7 @@ global G1_vec G2_vec
 %% Define integral observer parameters
 betas = [1 1];
 betas = [1 1 1];
-T = 5;
+T = 2;
 time_step = 0.01;
 time_stamps = 0 : time_step :T;
 time_samples_count = length(time_stamps);
@@ -53,4 +53,28 @@ for t = time_stamps
     G1_vec(:,:, itr) = getG1(t);
     G2_vec(:,:, itr) = getG2(t); 
     itr = itr + 1;
+end
+
+%% plot G1 G2 matrices
+
+% G1
+figure
+for i = 1:n
+    for j = 1:n_C
+        subplot(n, n_C, j + (i-1)*n_C)
+        plot(time_stamps, squeeze(G1_vec(i,j,:)))
+        grid on;
+        title("G1["+num2str(i)+','+num2str(j)+']')
+    end
+end
+
+% G2
+figure
+for i = 1:n
+    for j = 1:n_B
+        subplot(n, n_B, j + (i-1)*n_B)
+        plot(time_stamps, squeeze(G2_vec(i,j,:)))
+        grid on;
+        title("G2["+num2str(i)+','+num2str(j)+']')
+    end
 end

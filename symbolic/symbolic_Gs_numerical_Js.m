@@ -33,7 +33,7 @@ for i=1:system_size
 end
 
 for i = 1:system_size
-    beta(i) = 0;
+    beta(i) = 1;
 end
 
 syms J
@@ -71,7 +71,7 @@ G2 = simplify(G2,'steps',1000)
 % przykladowe przebiegi składowych macierzy G1 i G2
 %%
 Treal = 2;
-betasreal = [1 1];
+betasreal = ones(1,system_size);
 
 figure
 for i = 1:system_size
@@ -84,7 +84,7 @@ for i = 1:system_size
         subplot(system_size,output_size,j+(i-1)*output_size)
         plot(0:0.01:Treal,G1tempf(0:0.01:Treal))
         grid on;
-        title(["G1 "+num2str(i)+num2str(j)])
+        title("G1["+num2str(i)+','+num2str(j)+']')
     end
 end
 
@@ -99,7 +99,7 @@ for i = 1:system_size
         subplot(system_size,output_size,j+(i-1)*output_size)
         plot(0:0.01:Treal,G2tempf(0:0.01:Treal))
         grid on;
-        title(["G2 "+num2str(i)+num2str(j)])
+        title("G2["+num2str(i)+','+num2str(j)+']')
     end
 end
 
@@ -112,7 +112,13 @@ for i = 1:system_size
     J = sum(G1(i,:).^2) + 1*sum(G2(i,:).^2)  % koszt liczymy jakby na wejściu były zakłócenia (tak samo ważne jak na wyjściu) + dla każdego pojedynczego wejścia/wyjścia współczynniki są takie same
 end
 syms betafnc [1 system_size] real positive
-Jsymfun(T,betafnc,t) = J;
+try
+    double(beta);
+    Jsymfun(T,betafnc,t) = J;
+catch
+    Jsymfun(T,beta,t) = J;
+end
+
 Jfun = matlabFunction(Jsymfun);
 Jvalues = zeros(length(Ts), length(betas));
 i = 0;
