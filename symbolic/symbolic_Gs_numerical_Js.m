@@ -32,6 +32,7 @@ for i=1:system_size
     assume(beta(i)>0);
 end
 
+% zakomentowanie daje pełną analizę dla różnych beta (dłuzej się liczy)
 for i = 1:system_size
     beta(i) = 1;
 end
@@ -108,12 +109,14 @@ Tslen = 100;  % liczba analizowanych długości okien
 bslen = 200;  % liczba analizowanych wartości współczynników beta
 Ts    = logspace(-1,log10(10),Tslen);  % analizowane długości okna
 betas = logspace(-2,log10(1),bslen);  % analizowane współczynniki beta DLA MACIERZY G1 i G2
-for i = 1:system_size
-    J = sum(G1(i,:).^2) + 1*sum(G2(i,:).^2)  % koszt liczymy jakby na wejściu były zakłócenia (tak samo ważne jak na wyjściu) + dla każdego pojedynczego wejścia/wyjścia współczynniki są takie same
+J = sum(G1(1,:).^2) + 1*sum(G2(1,:).^2)
+for i = 2:system_size
+    J = J + sum(G1(i,:).^2) + 1*sum(G2(i,:).^2)  % koszt liczymy jakby na wejściu były zakłócenia (tak samo ważne jak na wyjściu) + dla każdego pojedynczego wejścia/wyjścia współczynniki są takie same
 end
-syms betafnc [1 system_size] real positive
+
 try
     double(beta);
+    syms betafnc [1 system_size] real positive
     Jsymfun(T,betafnc,t) = J;
 catch
     Jsymfun(T,beta,t) = J;
@@ -141,7 +144,7 @@ end
 
 figure
 [X, Y] = meshgrid(Ts, betas);
-mesh(X, Y, Jvalues')
+mesh(X, Y, (real(Jvalues))')
 grid on;
 xlabel("T")
 ylabel("$\hat\beta(1)=\hat\beta(2)=...=Y$", 'Interpreter', 'latex')

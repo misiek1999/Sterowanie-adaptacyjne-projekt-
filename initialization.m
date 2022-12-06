@@ -1,3 +1,6 @@
+global A B C n W M 
+global T time_step time_stamps time_samples_count
+global G1_vec G2_vec
 %% load system from other directory
 path_to_model = 'model/load_model.m';
 run(path_to_model);
@@ -14,13 +17,15 @@ n_C = n_C(1);
 n_B = size(B);
 n_B = n_B(2);
 
-global A B C n W M 
-global T time_step time_stamps time_samples_count
-global G1_vec G2_vec
 %% Define integral observer parameters
-betas = [1 1];
-betas = [1 1 1];
-T = 2;
+if ~exist('betas', 'var')
+    betas = ones(1,n);
+end
+if exist('T', 'var') && isempty(T)
+    T = 2;
+else
+    T = 2;
+end
 time_step = 0.01;
 time_stamps = 0 : time_step :T;
 time_samples_count = length(time_stamps);
@@ -56,25 +61,30 @@ for t = time_stamps
 end
 
 %% plot G1 G2 matrices
-
-% G1
-figure
-for i = 1:n
-    for j = 1:n_C
-        subplot(n, n_C, j + (i-1)*n_C)
-        plot(time_stamps, squeeze(G1_vec(i,j,:)))
-        grid on;
-        title("G1["+num2str(i)+','+num2str(j)+']')
-    end
+if ~exist('plotGs','var')
+    plotGs = 1;
 end
 
-% G2
-figure
-for i = 1:n
-    for j = 1:n_B
-        subplot(n, n_B, j + (i-1)*n_B)
-        plot(time_stamps, squeeze(G2_vec(i,j,:)))
-        grid on;
-        title("G2["+num2str(i)+','+num2str(j)+']')
+if plotGs
+    % G1
+    figure
+    for i = 1:n
+        for j = 1:n_C
+            subplot(n, n_C, j + (i-1)*n_C)
+            plot(time_stamps, squeeze(G1_vec(i,j,:)))
+            grid on;
+            title("G1["+num2str(i)+','+num2str(j)+']')
+        end
+    end
+
+    % G2
+    figure
+    for i = 1:n
+        for j = 1:n_B
+            subplot(n, n_B, j + (i-1)*n_B)
+            plot(time_stamps, squeeze(G2_vec(i,j,:)))
+            grid on;
+            title("G2["+num2str(i)+','+num2str(j)+']')
+        end
     end
 end
