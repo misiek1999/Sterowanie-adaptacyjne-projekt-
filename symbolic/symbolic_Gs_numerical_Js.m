@@ -71,7 +71,7 @@ G2 = simplify(G2,'steps',1000)
 
 % przykladowe przebiegi składowych macierzy G1 i G2
 %%
-Treal = 2;
+Treal = 0.01;
 betasreal = ones(1,system_size);
 
 figure
@@ -147,7 +147,7 @@ figure
 mesh(X, Y, (real(Jvalues))')
 grid on;
 xlabel("T")
-ylabel("$\hat\beta(1)=\hat\beta(2)=...=Y$", 'Interpreter', 'latex')
+ylabel("$\beta(1)=\beta(2)=...=Y$", 'Interpreter', 'latex')
 zlabel("Wartość funkcji kosztu")
 zlim([0, 5])
 caxis([0 3])

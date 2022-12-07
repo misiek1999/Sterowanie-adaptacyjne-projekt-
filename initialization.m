@@ -8,7 +8,7 @@ run(path_to_model);
 path_to_main_folder = pwd;
 addpath(path_to_main_folder);
 %% Argument initialization
-x0 = [0 0 0];
+x0 = zeros(1,n);
 
 % determine the row of the matrix
 n = length(A);
@@ -19,11 +19,12 @@ n_B = n_B(2);
 
 %% Define integral observer parameters
 if ~exist('betas', 'var')
-    betas = ones(1,n);
+    betas = 1 * ones(1,n);
+end
+if ~exist('T', 'var')
+    T = 2;
 end
 if exist('T', 'var') && isempty(T)
-    T = 2;
-else
     T = 2;
 end
 time_step = 0.01;
