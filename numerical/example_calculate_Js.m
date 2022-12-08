@@ -1,8 +1,10 @@
 example_params;
 
 n = length(A);
-n_C = length(C);
-n_B = width(B);
+n_C = size(C);
+n_C = n_C(1);
+n_B = size(B);
+n_B = n_B(2);
 
 betashat  = [1 1 1];
 betashat2 = [0 0 0];
