@@ -14,6 +14,7 @@ rms_list = zeros([length(T_list) length(noise_power_list)]);
 itr_T = 1;  % create T iterator 
 itr_noise = 1;  % create noise iterator 
 for T = T_list
+    T
     % calculate new time steps
     time_stamps = 0 : time_step :T;
     time_samples_count = length(time_stamps);
@@ -35,6 +36,8 @@ for T = T_list
         M{i} = Mi;
     end
     itr = 1;
+    G1_vec = [];  % for every loop make unique G1 and G2
+    G2_vec = [];
     for t = time_stamps
         G1_vec(:,:, itr) = getG1(t);
         G2_vec(:,:, itr) = getG2(t); 
