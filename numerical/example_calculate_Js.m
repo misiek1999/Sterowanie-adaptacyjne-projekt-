@@ -1,5 +1,12 @@
 example_params;
 
+if (length(A)-rank(obsv(A,C))) == 0  % sprawdzenie obserwowalności
+    sprintf("System obserwowalny")
+else
+    sprintf("System nie obserwowalny")
+    return
+end
+
 n = length(A);
 n_C = size(C);
 n_C = n_C(1);

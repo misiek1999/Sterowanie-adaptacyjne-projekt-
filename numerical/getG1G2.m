@@ -24,8 +24,8 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
     T = time_samples(end);
     samples_no = length(time_samples);
     
-    M = zeros(n,n,samples_no);
-    W = zeros(2*n,2*n,samples_no);
+    M = zeros(n,n,n);
+    W = zeros(2*n,2*n,n);
     % wyliczenie wszystkich macierzy Mi i zapisanie ich w M
     for i = 1:n
         % calculate W matrix
