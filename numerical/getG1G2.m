@@ -16,6 +16,19 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
         return
     end
     
+    eigs = eig(A);
+    
+    if all(eigs==0)
+        maxeig = 1;
+    else
+        maxeig = max(abs(eigs));
+        mineig = min(abs(eigs(eigs~=0)));
+    
+        if maxeig/mineig > 1e3
+            warning("Uwaga! Mogą wystąpić problemy nymeryczne");
+        end
+    end
+    
     % A, B, C i wektora czasu time_samples (zawarta w nim jest długość okna)
     n_C = size(C);
     n_C = n_C(1);
@@ -33,9 +46,7 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
              C.'*C, -A.'    ];
         W(:,:,i) = Wi;
         % find Grama matrix's
-        Mi_integral_fun = @(tau) expm(-A.'*(T-tau))*C.'*C*getPhi11(tau, i, W, n);
-        Mi = integral(@(tau)Mi_integral_fun(tau), 0, T, 'ArrayValued', true);
-        M(:,:,i) = Mi;
+        M(:,:,i) = getMi(A/maxeig, C, T, i, W/maxeig, n);  % /maxeig dla poprawy własności numerycznych
     end
     
     % utworzenie macierzy 3 wymiarowych G1, G2 (trzeci wymiar odpowiada czasowi)
@@ -43,21 +54,21 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
     G2_vec = zeros(n,n_B,samples_no);
     itr = 1;
     for t = time_samples
-        P1 = [];
-        P2 = [];
+        P1 = zeros(n);
+        P2 = zeros(n);
         for i = 1:n
             ei = zeros([n 1]);
             ei(i) = 1;
             
-            phis = expm(W(:,:,i)*t);
+            phis = expm(W(:,:,i)*t/maxeig);  % /maxeig dla poprawy własności numerycznych
             phi11 = phis(1:n, 1:n);
             phi21 = phis(n+1:end, 1:n);
 
-            p1 = phi11 / M(:,:,i) * ei;
-            p2 = phi21 / M(:,:,i) * ei;
+            p1 = phi11 / M(:,:,i) * ei * maxeig;  % *maxeig dla poprawy własności numerycznych
+            p2 = phi21 / M(:,:,i) * ei * maxeig;  % *maxeig dla poprawy własności numerycznych
         
-            P1 = [P1 p1];
-            P2 = [P2 p2];
+            P1(:,i) = p1;
+            P2(:,i) = p2;
         end
 
         G1_vec(:,:, itr) = P1.'*C.';
