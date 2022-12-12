@@ -27,6 +27,12 @@ end
 if exist('T', 'var') && isempty(T)
     T = 2;
 end
+
+% fix betas vector if A matrix has been changed
+if n ~= length(betas)
+    betas = 1 * ones(1,n);
+end
+
 time_step = 0.01;
 time_stamps = 0 : time_step :T;
 time_samples_count = length(time_stamps);

@@ -14,4 +14,3 @@ function [G1] = getG2(t)
 
     G1 = P2.'*B;
 end
-

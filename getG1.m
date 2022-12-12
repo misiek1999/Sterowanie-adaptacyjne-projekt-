@@ -14,4 +14,3 @@ function [G1] = getG1(t)
 
     G1 = P1.'*C.';
 end
-
