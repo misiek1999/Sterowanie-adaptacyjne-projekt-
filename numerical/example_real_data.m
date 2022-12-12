@@ -23,7 +23,7 @@ end
 
 % wyznaczenie optymalnych parametrów obserwatora dla 
 
-options = optimset('MaxIter',500,'PlotFcns',@optimplotfval);
+options = optimset('MaxIter',100,'PlotFcns',@optimplotfval);
 
 params0 = [1, 0.2, 0.2, 0.2];  % T0, beta1, beta2, ..., beta_n_B - długość zależy od wymiaru macierzy B
 optifhand = @(p)optiG1G2(A, B, C, p);
@@ -45,6 +45,7 @@ n_B = n_B(2);
 x0 = zeros(1, n);
 
 [G1, G2] = getG1G2(A, B, C, betas, time_samples);
+plotG1G2(G1,G2,time_samples,A,B,C)
 
 % symulacja obserwatora
 

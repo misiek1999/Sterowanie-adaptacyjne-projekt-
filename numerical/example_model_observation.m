@@ -7,7 +7,7 @@ else
     return
 end
 
-options = optimset('MaxIter',500,'PlotFcns',@optimplotfval);
+options = optimset('MaxIter',100,'PlotFcns',@optimplotfval);
 
 params0 = [1, 0.2, 0.2 0.2];  % T0, beta1, beta2, ..., beta_n_B - długość zależy od wymiaru macierzy B
 optifhand = @(p)optiG1G2(A, B, C, p);
@@ -16,8 +16,8 @@ optifhand = @(p)optiG1G2(A, B, C, p);
 
 T = x(1);
 betas = x(2:end);
-input_noise_power = 0.000;
-output_noise_power = 0.000;
+input_noise_power = 0.01;
+output_noise_power = 0.01;
 
 time_step = 0.01;
 time_samples = 0:time_step:T;
