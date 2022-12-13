@@ -46,7 +46,7 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
              C.'*C, -A.'    ];
         W(:,:,i) = Wi;
         % find Grama matrix's
-        M(:,:,i) = getMi(A/maxeig, C, T, i, W/maxeig, n);  % /maxeig dla poprawy własności numerycznych
+        M(:,:,i) = getMi(A, C, T, i, W, n);
     end
     
     % utworzenie macierzy 3 wymiarowych G1, G2 (trzeci wymiar odpowiada czasowi)
@@ -60,12 +60,12 @@ function [G1, G2] = getG1G2(A, B, C, betas, time_samples)
             ei = zeros([n 1]);
             ei(i) = 1;
             
-            phis = expm(W(:,:,i)*t/maxeig);  % /maxeig dla poprawy własności numerycznych
+            phis = expm(W(:,:,i)*t);
             phi11 = phis(1:n, 1:n);
             phi21 = phis(n+1:end, 1:n);
 
-            p1 = phi11 / M(:,:,i) * ei * maxeig;  % *maxeig dla poprawy własności numerycznych
-            p2 = phi21 / M(:,:,i) * ei * maxeig;  % *maxeig dla poprawy własności numerycznych
+            p1 = phi11 / M(:,:,i) * ei;
+            p2 = phi21 / M(:,:,i) * ei;
         
             P1(:,i) = p1;
             P2(:,i) = p2;
