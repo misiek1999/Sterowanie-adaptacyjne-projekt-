@@ -1,10 +1,14 @@
-function plotG1G2(G1_vec, G2_vec, time_samples, A, B, C)
+function plotG1G2(G1_vec, G2_vec, time_samples)
+    % funkcja rysująca przebiegi macierzy G1 G2
+    % G1 - macierz G1
+    % G1 - macierz G2
+    % time_samples - próbki, dla których zostały wyliczone macierze G1 G2
 
-    n = length(A);
-    n_C = size(C);
-    n_C = n_C(1);
-    n_B = size(B);
-    n_B = n_B(2);
+    s = size(G1_vec);
+    n = s(1);
+    n_C = s(2);
+    s = size(G2_vec);
+    n_B = s(2);
 
     % G1
     figure

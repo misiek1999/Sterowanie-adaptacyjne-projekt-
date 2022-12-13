@@ -7,9 +7,11 @@ else
     return
 end
 
-options = optimset('MaxIter',500,'PlotFcns',@optimplotfval);
+time_step = 0.01;
+startpoint = [1 0.2 0.5];
+ploton = true;
+searchiter = 50;
 
-params0 = [1, 0.2, 0.2];  % T0, beta1, beta2, ..., beta_n_B - długość zależy od wymiaru macierzy B
-optifhand = @(p)optiG1G2(A, B, C, p);
+[G1, G2, time_samples, betas, T, x, fval, exitflag, output] = getoptiG1G2(A, B, C, time_step, startpoint, ploton, searchiter);
+plotG1G2(G1, G2, time_samples);
 
-[x,fval,exitflag,output] = fminsearch(optifhand, params0, options);

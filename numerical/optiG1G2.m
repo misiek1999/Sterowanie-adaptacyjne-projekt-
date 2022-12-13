@@ -1,4 +1,10 @@
 function y = optiG1G2(A, B, C, params)
+    % funkcja kosztu do optymalizacji parametrów macierzy G1 i G2
+    % A - macierz przestrzeni stanów A
+    % B - macierz przestrzeni stanów B
+    % C - macierz przestrzeni stanów C
+    % params - parametry optymalizacji w postaci [T, beta1, beta2, ..., beta_n_B]
+    
     
     Tend = params(1);
     betas = params(2:end);

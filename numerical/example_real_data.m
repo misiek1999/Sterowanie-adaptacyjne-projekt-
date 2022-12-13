@@ -7,11 +7,6 @@
 % wejście jest mierzone w zakresie -1 do 1 co odpowiada napięciom -12, +12 V
 % wyjściem jest położenie
 
-% TODO: Dość poważny problem - dla dużych wartości własnych A algorytm 
-% wykrzacza się przy liczeniu macierzy Gramma M
-% na tamtym etapie liczy się e do macierzy, co może dać Inf a potem przy 
-% całkowaniu NaN
-
 load example_measurements.mat  % zawiera też linearyzację A, B, C, D
 
 if (length(A)-rank(obsv(A,C))) == 0  % sprawdzenie obserwowalności
@@ -45,7 +40,7 @@ n_B = n_B(2);
 x0 = zeros(1, n);
 
 [G1, G2] = getG1G2(A, B, C, betas, time_samples);
-plotG1G2(G1,G2,time_samples,A,B,C)
+plotG1G2(G1,G2,time_samples)
 
 % symulacja obserwatora
 
