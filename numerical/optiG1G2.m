@@ -9,6 +9,16 @@ function y = optiG1G2(A, B, C, params)
     Tend = params(1);
     betas = params(2:end);
     
+    if Tend < 0.02
+        y = Inf;
+        return
+    end
+    
+    if any(betas<0)
+        y = Inf;
+        return
+    end
+    
     n = length(A);
     n_C = size(C);
     n_C = n_C(1);

@@ -13,12 +13,13 @@ ploton = true;
 searchiter = 50;
 
 [G1, G2, time_samples, betas, T, x, fval, exitflag, output] = getoptiG1G2(A, B, C, time_step, startpoint, ploton, searchiter);
-plotG1G2(G1, G2, time_samples);
+if ~ploton
+    plotG1G2(G1, G2, time_samples);
+end
 
-input_noise_power = 0.001;
-output_noise_power = 0.001;
+input_noise_power = 0.00;
+output_noise_power = 0.00;
 
-time_step = 0.01;
 time_samples = 0:time_step:T;
 time_samples_count = length(time_samples);
 n = length(A);
